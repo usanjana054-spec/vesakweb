@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>පින්බර වෙසක් මංගල්‍යයක් වේවා! - Vesak Festival</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Sinhala:wght@400;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES & THEME --- */
+        :root {
+            --bg-dark: #0a0b1e;
+            --bg-gradient: linear-gradient(180deg, #060713 0%, #0a0b1e 50%, #161233 100%);
+            --gold-glow: #ffd700;
+            --gold-light: #fff2a3;
+            --lotus-pink: #ff65a3;
+            --purple-glow: #4a154b;
+            --text-light: #f0f2f5;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', 'Noto Serif Sinhala', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-light);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- BACKGROUND PARTICLES (LANTERNS) --- */
+        #particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -20px;
+            background: radial-gradient(circle, rgba(255,215,0,1) 0%, rgba(255,101,163,0.4) 60%, rgba(0,0,0,0) 100%);
+            border-radius: 50%;
+            filter: blur(2px);
+            box-shadow: 0 0 10px var(--gold-glow);
+            animation: rise linear infinite;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.4; }
+            100% {
+                transform: translateY(-105vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 2;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+        }
+
+        /* Full Moon */
+        .moon {
+            position: absolute;
+            top: 15%;
+            width: 120px;
+            height: 120px;
+            background: #fffbe6;
+            border-radius: 50%;
+            box-shadow: 0 0 60px 20px rgba(255, 245, 200, 0.4);
+            z-index: -1;
+        }
+
+        /* Stupa Artwork Vector Wrapper */
+        .stupa-wrapper {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.25;
+        }
+
+        .stupa {
+            width: 320px;
+            height: auto;
+            filter: drop-shadow(0 0 30px rgba(255,255,255,0.3));
+        }
+
+        /* Animated Hanging Lanterns */
+        .lantern-container {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 5%;
+            pointer-events: auto;
+        }
+
+        .hanging-lantern {
+            width: 60px;
+            cursor: pointer;
+            transform-origin: top center;
+            animation: sway 4s ease-in-out infinite alternate;
+            transition: filter 0.3s ease;
+        }
+
+        .hanging-lantern:hover {
+            filter: drop-shadow(0 0 25px var(--gold-glow)) brightness(1.3);
+        }
+
+        .lantern-2 { animation-delay: -1.5s; animation-duration: 3.5s;}
+        .lantern-3 { animation-delay: -0.7s; animation-duration: 4.5s;}
+
+        @keyframes sway {
+            0% { transform: rotate(-5deg); }
+            100% { transform: rotate(5deg); }
+        }
+
+        /* Hero Content */
+        .greeting-text {
+            font-family: 'Noto Serif Sinhala', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--gold-light), var(--gold-glow), var(--lotus-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 2px 10px rgba(255, 215, 0, 0.3));
+            animation: pulseGlow 3s ease-in-out infinite alternate;
+            line-height: 1.4;
+        }
+
+        .sub-text {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+        }
+
+        @keyframes pulseGlow {
+            0% { filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.2)); transform: scale(1); }
+            100% { filter: drop-shadow(0 4px 20px rgba(255, 101, 163, 0.5)); transform: scale(1.02); }
+        }
+
+        /* Foreground Water & Flowers Styling */
+        .foreground-scenery {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(transparent, rgba(10, 11, 30, 0.8));
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            align-items: flex-end;
+            padding-bottom: 10px;
+        }
+
+        .interactive-element {
+            width: 45px;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+        }
+
+        .interactive-element:hover {
+            transform: scale(1.3) translateY(-10px);
+            filter: drop-shadow(0 0 15px var(--lotus-pink)) brightness(1.2);
+        }
+
+        /* --- CARDS SECTION (VESAK THOUGHTS) --- */
+        .content-section {
+            position: relative;
+            z-index: 2;
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Noto Serif Sinhala', serif;
+            font-size: 2.2rem;
+            margin-bottom: 60px;
+            color: var(--gold-glow);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 2px;
+            background: var(--lotus-pink);
+            margin: 15px auto 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* Glassmorphism Cards */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 40px 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,215,0,0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 101, 163, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(255,255,255,0.02);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .card-title {
+            font-family: 'Noto Serif Sinhala', serif;
+            font-size: 1.4rem;
+            color: var(--gold-light);
+            margin-bottom: 15px;
+        }
+
+        .card-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--glass-border);
+            z-index: 2;
+            position: relative;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            .greeting-text {
+                font-size: 2.2rem;
+            }
+            .sub-text {
+                font-size: 1rem;
+            }
+            .moon {
+                width: 90px;
+                height: 90px;
+            }
+            .stupa {
+                width: 240px;
+            }
+            .hanging-lantern {
+                width: 45px;
+            }
+            .content-section {
+                padding: 60px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particle-container"></div>
+
+    <section class="hero">
+        <div class="moon"></div>
+        
+        <div class="lantern-container">
+            <svg class="hanging-lantern lantern-1" viewBox="0 0 100 150">
+                <line x1="50" y1="0" x2="50" y2="40" stroke="#ffd700" stroke-width="2"/>
+                <polygon points="50,40 20,80 50,120 80,80" fill="#ffd700" opacity="0.9"/>
+                <polygon points="50,50 35,80 50,110 65,80" fill="#ff65a3" opacity="0.8"/>
+                <circle cx="50" cy="80" r="10" fill="#fff2a3"/>
+            </svg>
+            <svg class="hanging-lantern lantern-2" viewBox="0 0 100 150">
+                <line x1="50" y1="0" x2="50" y2="30" stroke="#ffd700" stroke-width="2"/>
+                <polygon points="50,30 15,75 50,120 85,75" fill="#ff65a3" opacity="0.9"/>
+                <polygon points="50,45 30,75 50,105 70,75" fill="#ffd700" opacity="0.8"/>
+                <circle cx="50" cy="75" r="12" fill="#fff2a3"/>
+            </svg>
+            <svg class="hanging-lantern lantern-3" viewBox="0 0 100 150">
+                <line x1="50" y1="0" x2="50" y2="50" stroke="#ffd700" stroke-width="2"/>
+                <polygon points="50,50 25,90 50,130 75,90" fill="#b19ffb" opacity="0.9"/>
+                <polygon points="50,60 38,90 50,120 62,90" fill="#ffd700" opacity="0.8"/>
+                <circle cx="50" cy="90" r="8" fill="#fff"/>
+            </svg>
+        </div>
+
+        <h1 class="greeting-text">ඔබ සැමට පින්බර වෙසක් මංගල්‍යයක් වේවා!</h1>
+        <p class="sub-text">The Festival of Light, Peace, and Enlightenment</p>
+
+        <div class="stupa-wrapper">
+            <svg class="stupa" viewBox="0 0 200 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M100 5V40M100 40H90V55H110V40H100ZM100 55C115 55 135 60 135 85C135 100 125 110 100 110C75 110 65 100 65 85C65 60 85 55 100 55ZM100 110H40C40 160 50 210 100 210C150 210 160 160 160 110H100ZM20 210H180V230H20V210Z" stroke="#ffffff" stroke-width="3" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="foreground-scenery">
+            <svg class="interactive-element" viewBox="0 0 100 100">
+                <path d="M50 20 C35 40, 35 70, 50 80 C65 70, 65 40, 50 20 Z" fill="#ff65a3" opacity="0.9"/>
+                <path d="M50 35 C20 50, 25 75, 50 80 C75 75, 80 50, 50 35 Z" fill="#ff4081" opacity="0.7"/>
+                <circle cx="50" cy="65" r="8" fill="#ffd700"/>
+            </svg>
+            <svg class="interactive-element" viewBox="0 0 100 100">
+                <path d="M20 60 C20 80, 80 80, 80 60 C80 55, 70 55, 50 55 C30 55, 20 55, 20 60 Z" fill="#cd7f32"/>
+                <path d="M50 25 C45 40, 45 55, 50 55 C55 55, 55 40, 50 25 Z" fill="#ffd700" filter="drop-shadow(0 0 8px #ffd700)"/>
+            </svg>
+            <svg class="interactive-element" viewBox="0 0 100 100">
+                <path d="M50 20 C35 40, 35 70, 50 80 C65 70, 65 40, 50 20 Z" fill="#ff65a3" opacity="0.9"/>
+                <path d="M50 35 C20 50, 25 75, 50 80 C75 75, 80 50, 50 35 Z" fill="#ff4081" opacity="0.7"/>
+                <circle cx="50" cy="65" r="8" fill="#ffd700"/>
+            </svg>
+        </div>
+    </section>
+
+    <main class="content-section">
+        <h2 class="section-title">වෙසක් පණිවිඩ — Vesak Thoughts</h2>
+        
+        <div class="grid">
+            <div class="card">
+                <span class="card-icon">🌸</span>
+                <h3 class="card-title">ප්‍රඥාව (Wisdom)</h3>
+                <p class="card-text">On this holiest day, we commemorate the birth, enlightenment, and passing away (Parinirvana) of Gautama Buddha. Let his teachings guide your path toward wisdom and eternal peace.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">🕯️</span>
+                <h3 class="card-title">ආලෝකය (Inner Light)</h3>
+                <p class="card-text">Just as these colorful Vesak lanterns light up the night sky, may the profound Dhamma dispel the darkness of ignorance and bring clarity, joy, and peace to your heart.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">🍂</span>
+                <h3 class="card-title">කරුණාව (Compassion)</h3>
+                <p class="card-text">Let us embrace "Amisa-Puja" and more importantly "Patipatti-Puja" by practicing loving-kindness (Metta) and generosity (Dana) to all living beings around the universe.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 Vesak Festival Commemoration. May all beings be happy and peaceful.</p>
+    </footer>
+
+    <script>
+        function createLanternParticles() {
+            const container = document.getElementById('particle-container');
+            const particleCount = 40; // Total count of floating lanterns simultaneously
+
+            for (let i = 0; i < particleCount; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    // Randomize sizes, positions, and speeds
+                    const size = Math.random() * 8 + 6; // 6px to 14px
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size * 1.3}px`; // Aspect ratio similar to a lantern
+                    particle.style.left = `${Math.random() * 100}vw`;
+                    
+                    const duration = Math.random() * 12 + 8; // 8s to 20s travel time
+                    particle.style.animationDuration = `${duration}s`;
+                    
+                    // Vary colors slightly between gold and pink
+                    if(Math.random() > 0.5) {
+                        particle.style.background = 'radial-gradient(circle, #fff2a3 0%, #ff65a3 80%)';
+                        particle.style.boxShadow = '0 0 12px #ff65a3';
+                    }
+
+                    container.appendChild(particle);
+
+                    // Remove item after its animation cycles to loop clean memory
+                    setTimeout(() => {
+                        particle.remove();
+                    }, duration * 1000);
+
+                }, Math.random() * 8000); // Stagger element generation over time
+            }
+        }
+
+        // Continually spawn elements over intervals
+        createLanternParticles();
+        setInterval(createLanternParticles, 12000);
+    </script>
+</body>
+</html>
